@@ -9,10 +9,28 @@
 
 
 <style>
+
+
 body {
   font-family: Arial, sans-serif;
   text-align: center;
   margin: 20px;
+  background: #f5f5f5;
+}
+
+
+h2 {
+  margin-bottom: 10px;
+}
+
+
+.contenedor {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 400px;
+  margin: auto;
+  box-shadow: 0 2px 8px #ccc;
 }
 
 
@@ -24,40 +42,96 @@ body {
 
 input {
   font-size: 18px;
-  padding: 8px;
-  width: 180px;
+  padding: 10px;
+  width: 200px;
   text-align: center;
+  border-radius: 8px;
+  border: 1px solid #aaa;
 }
 
 
 button {
   font-size: 18px;
-  padding: 10px;
+  padding: 12px 20px;
   margin: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #1976d2;
+  color: white;
 }
 
 
 #mensaje {
   margin-top: 20px;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
+  padding: 15px;
+  border-radius: 10px;
 }
+
+
+.verde {
+  background: #c8e6c9;
+  color: #1b5e20;
+}
+
+
+.amarillo {
+  background: #fff9c4;
+  color: #795548;
+}
+
+
+.rojo {
+  background: #ffcdd2;
+  color: #b71c1c;
+}
+
+
+#contador {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 15px;
+}
+
+
 </style>
 
 
 </head>
 
 
+
+
 <body>
 
 
+
+
+<div class="contenedor">
+
+
 <h2>Control de asistencia</h2>
+
+
+<div id="contador">
+Presentes hoy: 0
+</div>
+
+
 
 
 <h3>Escanear QR</h3>
 
 
 <div id="lector"></div>
+
+
+
+
+<button onclick="nuevoEscaneo()">
+📷 Nuevo escaneo
+</button>
 
 
 
@@ -73,7 +147,11 @@ button {
 <input id="dni" type="number" placeholder="Ingrese DNI">
 
 
+
+
 <br>
+
+
 
 
 <button onclick="enviarDNI()">
@@ -90,13 +168,25 @@ Esperando...
 
 
 
+</div>
+
+
+
+
 
 
 <script>
 
 
+
+
 const URL_APPS_SCRIPT =
 "https://script.google.com/macros/s/AKfycbzDtGXmfwOfobkyXSHSwe3o5h-lbzS83tZYzha0qDqUE7fBiMweoAhdz94WnMT8aHmQ/exec";
+
+
+
+
+let scanner;
 
 
 
@@ -106,39 +196,84 @@ const URL_APPS_SCRIPT =
 function mostrarResultado(data) {
 
 
-  if (data.encontrado) {
 
 
-    if (data.duplicado) {
+const mensaje =
+document.getElementById("mensaje");
 
 
-      document.getElementById("mensaje").innerHTML =
-      "⚠️ Ya registrado: " + data.nombre;
 
 
-    } else {
+if (data.presentesHoy !== undefined) {
 
 
-      document.getElementById("mensaje").innerHTML =
-      "✅ Presente: " + data.nombre;
-
-
-    }
-
-
-  } else {
-
-
-    document.getElementById("mensaje").innerHTML =
-    "❌ No encontrado";
-
-
-  }
+document.getElementById("contador").innerHTML =
+"Presentes hoy: " + data.presentesHoy;
 
 
 }
 
 
+
+
+
+
+if (data.encontrado) {
+
+
+
+
+if (data.duplicado) {
+
+
+mensaje.className = "amarillo";
+
+
+mensaje.innerHTML =
+"⚠️ Ya registrado hoy:<br>" + data.nombre;
+
+
+
+
+} else {
+
+
+
+
+mensaje.className = "verde";
+
+
+mensaje.innerHTML =
+"✅ Presente:<br>" + data.nombre;
+
+
+
+
+}
+
+
+
+
+} else {
+
+
+
+
+mensaje.className = "rojo";
+
+
+mensaje.innerHTML =
+"❌ No encontrado";
+
+
+
+
+}
+
+
+
+
+}
 
 
 
@@ -150,41 +285,46 @@ function enviarID(id) {
 
 
 
-  const url =
-  URL_APPS_SCRIPT + "?id=" + encodeURIComponent(id);
+const url =
+URL_APPS_SCRIPT + "?id=" + encodeURIComponent(id);
 
 
 
 
 
 
-fetch(url, {
-  method: "GET",
-  redirect: "follow"
+fetch(url,{
+method:"GET",
+redirect:"follow"
 })
 
 
 
-  .then(respuesta => respuesta.json())
+
+.then(respuesta=>respuesta.json())
 
 
-  .then(data => {
 
 
-    mostrarResultado(data);
+.then(data=>{
 
 
-  })
+mostrarResultado(data);
 
 
-  .catch(error => {
+})
 
 
-    document.getElementById("mensaje").innerHTML =
-    "Error: " + error.message;
 
 
-  });
+.catch(error=>{
+
+
+document.getElementById("mensaje").innerHTML =
+"Error: " + error.message;
+
+
+});
 
 
 
@@ -198,74 +338,81 @@ fetch(url, {
 
 
 
-function enviarDNI() {
+function enviarDNI(){
 
 
 
 
- const dni =
- document.getElementById("dni").value;
-
-
-
-
- if (!dni) {
-
-
-   document.getElementById("mensaje").innerHTML =
-   "Ingrese DNI";
-
-
-   return;
-
-
- }
-
-
-
-
- const url =
- URL_APPS_SCRIPT + "?dni=" + encodeURIComponent(dni);
+const dni =
+document.getElementById("dni").value;
 
 
 
 
 
 
-fetch(url, {
-  method: "GET",
-  redirect: "follow"
-})
+if(!dni){
 
 
-
- .then(respuesta => respuesta.json())
-
-
- .then(data => {
+document.getElementById("mensaje").innerHTML =
+"Ingrese DNI";
 
 
-   mostrarResultado(data);
-
-
- })
-
-
- .catch(error => {
-
-
-   document.getElementById("mensaje").innerHTML =
-   "Error: " + error.message;
-
-
- });
-
-
+return;
 
 
 }
 
 
+
+
+
+
+const url =
+URL_APPS_SCRIPT + "?dni=" + encodeURIComponent(dni);
+
+
+
+
+
+
+fetch(url,{
+method:"GET",
+redirect:"follow"
+})
+
+
+
+
+.then(respuesta=>respuesta.json())
+
+
+
+
+.then(data=>{
+
+
+mostrarResultado(data);
+
+
+})
+
+
+
+
+.catch(error=>{
+
+
+document.getElementById("mensaje").innerHTML =
+"Error: " + error.message;
+
+
+});
+
+
+
+
+}
 
 
 
@@ -279,40 +426,47 @@ function iniciarQR(){
 
 
 
- const scanner =
- new Html5QrcodeScanner(
- "lector",
- {
-  fps:10,
-  qrbox:250
- }
- );
+scanner =
+new Html5QrcodeScanner(
+"lector",
+{
+fps:10,
+qrbox:250
+}
+);
 
 
 
 
- scanner.render(
 
 
- (textoQR)=>{
+scanner.render(
 
 
-   scanner.clear();
+(textoQR)=>{
 
 
-   enviarID(textoQR);
 
 
- },
+scanner.clear();
 
 
- (error)=>{
 
 
- }
+enviarID(textoQR);
 
 
- );
+
+
+},
+
+
+
+
+(error)=>{}
+
+
+);
 
 
 
@@ -322,7 +476,44 @@ function iniciarQR(){
 
 
 
+
+
+function nuevoEscaneo(){
+
+
+
+
+document.getElementById("lector").innerHTML="";
+
+
+
+
+document.getElementById("mensaje").innerHTML =
+"Esperando QR...";
+
+
+
+
+document.getElementById("mensaje").className="";
+
+
+
+
 iniciarQR();
+
+
+
+
+}
+
+
+
+
+
+
+iniciarQR();
+
+
 
 
 
@@ -334,3 +525,4 @@ iniciarQR();
 
 </body>
 </html>
+

@@ -1,97 +1,267 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Lector QR Asistencia</title>
-  <script src="https://unpkg.com/html5-qrcode"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin: 20px;
-    }
+<meta charset="UTF-8">
+<title>Control de asistencia</title>
 
 
-    #lector {
-      width: 300px;
-      margin: auto;
-    }
+<script src="https://unpkg.com/html5-qrcode"></script>
 
 
-    #mensaje {
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-  </style>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 20px;
+}
+
+
+#lector {
+  width: 300px;
+  margin: auto;
+}
+
+
+input {
+  font-size: 18px;
+  padding: 8px;
+  width: 180px;
+  text-align: center;
+}
+
+
+button {
+  font-size: 18px;
+  padding: 10px;
+  margin: 10px;
+}
+
+
+#mensaje {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+</style>
+
+
 </head>
 
 
 <body>
 
 
-<h2>Control de asistencia QR</h2>
+<h2>Control de asistencia</h2>
+
+
+<h3>Escanear QR</h3>
 
 
 <div id="lector"></div>
 
 
+
+
+<hr>
+
+
+
+
+<h3>Carga manual por DNI</h3>
+
+
+<input id="dni" type="number" placeholder="Ingrese DNI">
+
+
+<br>
+
+
+<button onclick="enviarDNI()">
+Registrar DNI
+</button>
+
+
+
+
 <div id="mensaje">
-Esperando QR...
+Esperando...
 </div>
+
+
+
+
 
 
 <script>
 
 
-const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzDtGXmfwOfobkyXSHSwe3o5h-lbzS83tZYzha0qDqUE7fBiMweoAhdz94WnMT8aHmQ/exec";
+const URL_APPS_SCRIPT =
+"https://script.google.com/macros/s/AKfycbzDtGXmfwOfobkyXSHSwe3o5h-lbzS83tZYzha0qDqUE7fBiMweoAhdz94WnMT8aHmQ/exec";
 
 
-function enviarID(id) {
 
 
-  fetch(URL_APPS_SCRIPT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    body: "id=" + encodeURIComponent(id)
-  })
-  .then(r => r.json())
-  .then(data => {
 
 
-    if (data.encontrado) {
+function mostrarResultado(data) {
 
 
-      if (data.duplicado) {
-        document.getElementById("mensaje").innerHTML =
-        "⚠️ Ya registrado: " + data.nombre;
-      } else {
-        document.getElementById("mensaje").innerHTML =
-        "✅ Presente: " + data.nombre;
-      }
+  if (data.encontrado) {
+
+
+    if (data.duplicado) {
+
+
+      document.getElementById("mensaje").innerHTML =
+      "⚠️ Ya registrado: " + data.nombre;
 
 
     } else {
 
 
       document.getElementById("mensaje").innerHTML =
-      "❌ QR no encontrado";
+      "✅ Presente: " + data.nombre;
 
 
     }
 
 
+  } else {
+
+
+    document.getElementById("mensaje").innerHTML =
+    "❌ No encontrado";
+
+
+  }
+
+
+}
+
+
+
+
+
+
+
+
+function enviarID(id) {
+
+
+
+
+  const url =
+  URL_APPS_SCRIPT + "?id=" + encodeURIComponent(id);
+
+
+
+
+
+
+  fetch(url)
+
+
+  .then(respuesta => respuesta.json())
+
+
+  .then(data => {
+
+
+    mostrarResultado(data);
+
+
   })
-.catch(error => {
-  document.getElementById("mensaje").innerHTML =
-  "Error: " + error.message;
-});
+
+
+  .catch(error => {
+
+
+    document.getElementById("mensaje").innerHTML =
+    "Error: " + error.message;
+
+
+  });
+
 
 
 
 }
+
+
+
+
+
+
+
+
+function enviarDNI() {
+
+
+
+
+ const dni =
+ document.getElementById("dni").value;
+
+
+
+
+ if (!dni) {
+
+
+   document.getElementById("mensaje").innerHTML =
+   "Ingrese DNI";
+
+
+   return;
+
+
+ }
+
+
+
+
+ const url =
+ URL_APPS_SCRIPT + "?dni=" + encodeURIComponent(dni);
+
+
+
+
+
+
+ fetch(url)
+
+
+ .then(respuesta => respuesta.json())
+
+
+ .then(data => {
+
+
+   mostrarResultado(data);
+
+
+ })
+
+
+ .catch(error => {
+
+
+   document.getElementById("mensaje").innerHTML =
+   "Error: " + error.message;
+
+
+ });
+
+
+
+
+}
+
+
+
+
+
+
 
 
 
@@ -99,34 +269,60 @@ function enviarID(id) {
 function iniciarQR(){
 
 
- const scanner = new Html5QrcodeScanner(
-   "lector",
-   {
-     fps:10,
-     qrbox:250
-   }
+
+
+ const scanner =
+ new Html5QrcodeScanner(
+ "lector",
+ {
+  fps:10,
+  qrbox:250
+ }
  );
+
+
 
 
  scanner.render(
-   (textoQR)=>{
-      scanner.clear();
-      enviarID(textoQR);
-   },
-   (error)=>{
-   }
+
+
+ (textoQR)=>{
+
+
+   scanner.clear();
+
+
+   enviarID(textoQR);
+
+
+ },
+
+
+ (error)=>{
+
+
+ }
+
+
  );
+
+
 
 
 }
 
 
+
+
 iniciarQR();
+
+
 
 
 </script>
 
 
+
+
 </body>
 </html>
-

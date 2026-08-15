@@ -11,88 +11,196 @@
 <style>
 
 
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 20px;
-  background: #f5f5f5;
+* {
+  box-sizing: border-box;
 }
 
 
-h2 {
-  margin-bottom: 10px;
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 15px;
+  background: #eef2f5;
 }
 
 
 .contenedor {
+  max-width: 420px;
+  margin: auto;
   background: white;
-  padding: 20px;
-  border-radius: 15px;
-  max-width: 400px;
-  margin: auto;
-  box-shadow: 0 2px 8px #ccc;
+  border-radius: 20px;
+  padding: 20px 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 
-#lector {
-  width: 300px;
-  margin: auto;
+
+
+h2 {
+  font-size: 28px;
+  margin: 5px;
 }
 
 
-input {
-  font-size: 18px;
-  padding: 10px;
-  width: 200px;
-  text-align: center;
-  border-radius: 8px;
-  border: 1px solid #aaa;
-}
-
-
-button {
-  font-size: 18px;
-  padding: 12px 20px;
-  margin: 10px;
-  border-radius: 8px;
-  border: none;
-  background: #1976d2;
-  color: white;
-}
-
-
-#mensaje {
-  margin-top: 20px;
-  font-size: 22px;
-  font-weight: bold;
-  padding: 15px;
-  border-radius: 10px;
-}
-
-
-.verde {
-  background: #c8e6c9;
-  color: #1b5e20;
-}
-
-
-.amarillo {
-  background: #fff9c4;
-  color: #795548;
-}
-
-
-.rojo {
-  background: #ffcdd2;
-  color: #b71c1c;
-}
 
 
 #contador {
-  font-size: 22px;
+
+
+  background: #1976d2;
+  color: white;
+  font-size: 24px;
   font-weight: bold;
-  margin: 15px;
+  padding: 12px;
+  border-radius: 12px;
+  margin: 15px 0;
+
+
 }
+
+
+
+
+h3 {
+
+
+  font-size: 20px;
+  margin: 15px;
+
+
+}
+
+
+
+
+#lector {
+
+
+  width: 100%;
+  max-width: 320px;
+  margin: auto;
+
+
+}
+
+
+
+
+button {
+
+
+  width: 90%;
+  max-width: 300px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 14px;
+  margin: 10px;
+  border-radius: 12px;
+  border: none;
+  background: #1976d2;
+  color: white;
+
+
+}
+
+
+
+
+button:active {
+
+
+  transform: scale(0.97);
+
+
+}
+
+
+
+
+input {
+
+
+  width: 90%;
+  max-width: 300px;
+  font-size: 22px;
+  padding: 14px;
+  text-align: center;
+  border-radius: 12px;
+  border: 2px solid #aaa;
+
+
+}
+
+
+
+
+hr {
+
+
+  margin: 25px 0;
+  border: none;
+  border-top: 1px solid #ddd;
+
+
+}
+
+
+
+
+
+
+#mensaje {
+
+
+  margin-top: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 18px;
+  border-radius: 15px;
+
+
+}
+
+
+
+
+
+
+.verde {
+
+
+  background: #c8e6c9;
+  color:#1b5e20;
+
+
+}
+
+
+
+
+.amarillo {
+
+
+  background:#fff3cd;
+  color:#856404;
+
+
+}
+
+
+
+
+.rojo {
+
+
+  background:#ffcdd2;
+  color:#b71c1c;
+
+
+}
+
+
 
 
 </style>
@@ -111,7 +219,13 @@ button {
 <div class="contenedor">
 
 
-<h2>Control de asistencia</h2>
+
+
+<h2>
+📋 Control de asistencia
+</h2>
+
+
 
 
 <div id="contador">
@@ -121,7 +235,11 @@ Presentes hoy: 0
 
 
 
-<h3>Escanear QR</h3>
+<h3>
+📷 Escanear QR
+</h3>
+
+
 
 
 <div id="lector"></div>
@@ -130,8 +248,10 @@ Presentes hoy: 0
 
 
 <button onclick="nuevoEscaneo()">
-📷 Nuevo escaneo
+🔄 Nuevo escaneo
 </button>
+
+
 
 
 
@@ -141,10 +261,20 @@ Presentes hoy: 0
 
 
 
-<h3>Carga manual por DNI</h3>
 
 
-<input id="dni" type="number" placeholder="Ingrese DNI">
+<h3>
+🪪 Carga manual por DNI
+</h3>
+
+
+
+
+<input 
+id="dni" 
+type="number" 
+placeholder="Ingrese DNI"
+>
 
 
 
@@ -161,9 +291,13 @@ Registrar DNI
 
 
 
+
+
 <div id="mensaje">
 Esperando...
 </div>
+
+
 
 
 
@@ -193,7 +327,7 @@ let scanner;
 
 
 
-function mostrarResultado(data) {
+function mostrarResultado(data){
 
 
 
@@ -204,7 +338,9 @@ document.getElementById("mensaje");
 
 
 
-if (data.presentesHoy !== undefined) {
+
+
+if(data.presentesHoy !== undefined){
 
 
 document.getElementById("contador").innerHTML =
@@ -218,15 +354,15 @@ document.getElementById("contador").innerHTML =
 
 
 
-if (data.encontrado) {
+if(data.encontrado){
 
 
 
 
-if (data.duplicado) {
+if(data.duplicado){
 
 
-mensaje.className = "amarillo";
+mensaje.className="amarillo";
 
 
 mensaje.innerHTML =
@@ -235,12 +371,12 @@ mensaje.innerHTML =
 
 
 
-} else {
+}else{
 
 
 
 
-mensaje.className = "verde";
+mensaje.className="verde";
 
 
 mensaje.innerHTML =
@@ -254,12 +390,12 @@ mensaje.innerHTML =
 
 
 
-} else {
+}else{
 
 
 
 
-mensaje.className = "rojo";
+mensaje.className="rojo";
 
 
 mensaje.innerHTML =
@@ -280,7 +416,9 @@ mensaje.innerHTML =
 
 
 
-function enviarID(id) {
+
+
+function enviarID(id){
 
 
 
@@ -301,9 +439,7 @@ redirect:"follow"
 
 
 
-.then(respuesta=>respuesta.json())
-
-
+.then(r=>r.json())
 
 
 .then(data=>{
@@ -330,6 +466,8 @@ document.getElementById("mensaje").innerHTML =
 
 
 }
+
+
 
 
 
@@ -384,9 +522,7 @@ redirect:"follow"
 
 
 
-.then(respuesta=>respuesta.json())
-
-
+.then(r=>r.json())
 
 
 .then(data=>{
@@ -421,6 +557,8 @@ document.getElementById("mensaje").innerHTML =
 
 
 
+
+
 function iniciarQR(){
 
 
@@ -428,11 +566,17 @@ function iniciarQR(){
 
 scanner =
 new Html5QrcodeScanner(
+
+
 "lector",
+
+
 {
 fps:10,
 qrbox:250
 }
+
+
 );
 
 
@@ -446,21 +590,13 @@ scanner.render(
 (textoQR)=>{
 
 
-
-
 scanner.clear();
-
-
 
 
 enviarID(textoQR);
 
 
-
-
 },
-
-
 
 
 (error)=>{}
@@ -472,6 +608,10 @@ enviarID(textoQR);
 
 
 }
+
+
+
+
 
 
 
@@ -511,9 +651,9 @@ iniciarQR();
 
 
 
+
+
 iniciarQR();
-
-
 
 
 
@@ -525,4 +665,3 @@ iniciarQR();
 
 </body>
 </html>
-

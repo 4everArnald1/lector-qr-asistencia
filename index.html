@@ -158,7 +158,11 @@ function enviarID(id) {
 
 
 
-  fetch(url)
+fetch(url, {
+  method: "GET",
+  redirect: "follow"
+})
+
 
 
   .then(respuesta => respuesta.json())
@@ -228,7 +232,11 @@ function enviarDNI() {
 
 
 
- fetch(url)
+fetch(url, {
+  method: "GET",
+  redirect: "follow"
+})
+
 
 
  .then(respuesta => respuesta.json())

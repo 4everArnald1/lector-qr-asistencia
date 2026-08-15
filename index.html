@@ -84,10 +84,11 @@ function enviarID(id) {
 
 
   })
-  .catch(error => {
-    document.getElementById("mensaje").innerHTML =
-    "Error de conexión";
-  });
+.catch(error => {
+  document.getElementById("mensaje").innerHTML =
+  "Error: " + error.message;
+});
+
 
 
 }

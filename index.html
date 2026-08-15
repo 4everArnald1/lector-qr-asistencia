@@ -1,1 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Lector QR Asistencia</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+
+
+    #lector {
+      width: 300px;
+      margin: auto;
+    }
+
+
+    #mensaje {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+
+<body>
+
+
+<h2>Control de asistencia QR</h2>
+
+
+<div id="lector"></div>
+
+
+<div id="mensaje">
+Esperando QR...
+</div>
+
+
+<script>
+
+
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzDtGXmfwOfobkyXSHSwe3o5h-lbzS83tZYzha0qDqUE7fBiMweoAhdz94WnMT8aHmQ/exec";
+
+
+function enviarID(id) {
+
+
+  fetch(URL_APPS_SCRIPT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: "id=" + encodeURIComponent(id)
+  })
+  .then(r => r.json())
+  .then(data => {
+
+
+    if (data.encontrado) {
+
+
+      if (data.duplicado) {
+        document.getElementById("mensaje").innerHTML =
+        "⚠️ Ya registrado: " + data.nombre;
+      } else {
+        document.getElementById("mensaje").innerHTML =
+        "✅ Presente: " + data.nombre;
+      }
+
+
+    } else {
+
+
+      document.getElementById("mensaje").innerHTML =
+      "❌ QR no encontrado";
+
+
+    }
+
+
+  })
+  .catch(error => {
+    document.getElementById("mensaje").innerHTML =
+    "Error de conexión";
+  });
+
+
+}
+
+
+
+
+function iniciarQR(){
+
+
+ const scanner = new Html5QrcodeScanner(
+   "lector",
+   {
+     fps:10,
+     qrbox:250
+   }
+ );
+
+
+ scanner.render(
+   (textoQR)=>{
+      scanner.clear();
+      enviarID(textoQR);
+   },
+   (error)=>{
+   }
+ );
+
+
+}
+
+
+iniciarQR();
+
+
+</script>
+
+
+</body>
+</html>
 

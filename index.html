@@ -3,14 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Control de asistencia</title>
-
-
 <script src="https://unpkg.com/html5-qrcode"></script>
 
 
 <style>
-
-
 * {
   box-sizing: border-box;
 }
@@ -35,19 +31,13 @@ body {
 }
 
 
-
-
 h2 {
   font-size: 28px;
   margin: 5px;
 }
 
 
-
-
 #contador {
-
-
   background: #1976d2;
   color: white;
   font-size: 24px;
@@ -55,41 +45,23 @@ h2 {
   padding: 12px;
   border-radius: 12px;
   margin: 15px 0;
-
-
 }
-
-
 
 
 h3 {
-
-
   font-size: 20px;
   margin: 15px;
-
-
 }
-
-
 
 
 #lector {
-
-
   width: 100%;
   max-width: 320px;
   margin: auto;
-
-
 }
 
 
-
-
 button {
-
-
   width: 90%;
   max-width: 300px;
   font-size: 20px;
@@ -100,27 +72,15 @@ button {
   border: none;
   background: #1976d2;
   color: white;
-
-
 }
-
-
 
 
 button:active {
-
-
   transform: scale(0.97);
-
-
 }
 
 
-
-
 input {
-
-
   width: 90%;
   max-width: 300px;
   font-size: 22px;
@@ -128,97 +88,51 @@ input {
   text-align: center;
   border-radius: 12px;
   border: 2px solid #aaa;
-
-
 }
-
-
 
 
 hr {
-
-
   margin: 25px 0;
   border: none;
   border-top: 1px solid #ddd;
-
-
 }
 
 
-
-
-
-
 #mensaje {
-
-
   margin-top: 20px;
   font-size: 24px;
   font-weight: bold;
   padding: 18px;
   border-radius: 15px;
-
-
 }
-
-
-
-
 
 
 .verde {
-
-
   background: #c8e6c9;
   color:#1b5e20;
-
-
 }
-
-
 
 
 .amarillo {
-
-
   background:#fff3cd;
   color:#856404;
-
-
 }
-
-
 
 
 .rojo {
-
-
   background:#ffcdd2;
   color:#b71c1c;
-
-
 }
 
 
-
-
 </style>
-
-
 </head>
-
-
 
 
 <body>
 
 
-
-
 <div class="contenedor">
-
-
 
 
 <h2>
@@ -226,13 +140,9 @@ hr {
 </h2>
 
 
-
-
 <div id="contador">
 Presentes hoy: 0
 </div>
-
-
 
 
 <h3>
@@ -240,11 +150,7 @@ Presentes hoy: 0
 </h3>
 
 
-
-
 <div id="lector"></div>
-
-
 
 
 <button onclick="nuevoEscaneo()">
@@ -252,22 +158,12 @@ Presentes hoy: 0
 </button>
 
 
-
-
-
-
 <hr>
-
-
-
-
 
 
 <h3>
 🪪 Carga manual por DNI
 </h3>
-
-
 
 
 <input 
@@ -277,11 +173,7 @@ placeholder="Ingrese DNI"
 >
 
 
-
-
 <br>
-
-
 
 
 <button onclick="enviarDNI()">
@@ -289,29 +181,17 @@ Registrar DNI
 </button>
 
 
-
-
-
-
 <div id="mensaje">
 Esperando...
 </div>
 
 
-
-
-
-
 </div>
 
 
 
 
-
-
 <script>
-
-
 
 
 const URL_APPS_SCRIPT =
@@ -327,15 +207,65 @@ let scanner;
 
 
 
+function cargarContador(){
+
+
+const url =
+URL_APPS_SCRIPT + "?contador=true";
+
+
+
+
+fetch(url,{
+method:"GET",
+redirect:"follow"
+})
+
+
+.then(r=>r.json())
+
+
+.then(data=>{
+
+
+if(data.presentesHoy !== undefined){
+
+
+document.getElementById("contador").innerHTML =
+"Presentes hoy: " + data.presentesHoy;
+
+
+}
+
+
+})
+
+
+.catch(error=>{
+
+
+console.log(error);
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+
+
+
 function mostrarResultado(data){
-
-
 
 
 const mensaje =
 document.getElementById("mensaje");
-
-
 
 
 
@@ -410,6 +340,8 @@ mensaje.innerHTML =
 
 
 }
+
+
 
 
 
@@ -531,6 +463,11 @@ redirect:"follow"
 mostrarResultado(data);
 
 
+document.getElementById("dni").value="";
+
+
+
+
 })
 
 
@@ -562,8 +499,6 @@ document.getElementById("mensaje").innerHTML =
 function iniciarQR(){
 
 
-
-
 scanner =
 new Html5QrcodeScanner(
 
@@ -578,8 +513,6 @@ qrbox:250
 
 
 );
-
-
 
 
 
@@ -621,8 +554,6 @@ enviarID(textoQR);
 function nuevoEscaneo(){
 
 
-
-
 document.getElementById("lector").innerHTML="";
 
 
@@ -653,14 +584,17 @@ iniciarQR();
 
 
 
+
+
+cargarContador();
+
+
 iniciarQR();
 
 
 
 
 </script>
-
-
 
 
 </body>

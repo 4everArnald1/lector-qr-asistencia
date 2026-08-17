@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+
 <meta charset="UTF-8">
 <title>Control de asistencia</title>
 
@@ -53,6 +55,14 @@ margin:10px;
 
 
 
+h3 {
+font-size:26px;
+margin:20px;
+}
+
+
+
+
 #contador {
 
 
@@ -63,18 +73,6 @@ font-weight:bold;
 padding:15px;
 border-radius:15px;
 margin:20px 0;
-
-
-}
-
-
-
-
-h3 {
-
-
-font-size:26px;
-margin:20px;
 
 
 }
@@ -132,7 +130,21 @@ border:2px solid #888;
 
 
 
-#mensaje {
+hr {
+
+
+margin:30px 0;
+border:none;
+border-top:2px solid #ddd;
+
+
+}
+
+
+
+
+#mensaje,
+#mensajeLogin {
 
 
 margin-top:25px;
@@ -184,7 +196,22 @@ color:#b71c1c;
 
 
 #app {
+
+
 display:none;
+
+
+}
+
+
+
+
+a {
+
+
+font-size:22px;
+
+
 }
 
 
@@ -194,10 +221,14 @@ display:none;
 
 
 </head>
+
+
+
+
 <body>
 
 
-<!-- LOGIN -->
+<!-- PANTALLA LOGIN -->
 
 
 <div id="login" class="contenedor">
@@ -206,12 +237,14 @@ display:none;
 <h2>🔐 Acceso docente</h2>
 
 
-<h3>Sistema de asistencia</h3>
+<h3>
+Sistema de asistencia
+</h3>
 
 
 
 
-<input 
+<input
 id="usuario"
 placeholder="Usuario">
 
@@ -223,7 +256,7 @@ placeholder="Usuario">
 
 
 
-<input 
+<input
 id="clave"
 type="password"
 placeholder="Clave">
@@ -257,6 +290,7 @@ Ingresar
 
 <p>
 Soporte:
+<br>
 <a href="mailto:nfail@fmed.uba.ar">
 nfail@fmed.uba.ar
 </a>
@@ -266,6 +300,8 @@ nfail@fmed.uba.ar
 
 
 </div>
+
+
 
 
 
@@ -306,6 +342,8 @@ Presentes hoy: 0
 
 
 
+
+
 <button onclick="nuevoEscaneo()">
 🔄 Nuevo escaneo
 </button>
@@ -314,6 +352,8 @@ Presentes hoy: 0
 
 
 <hr>
+
+
 
 
 
@@ -383,7 +423,9 @@ function ingresar(){
 
 
 let usuario =
-document.getElementById("usuario").value.toLowerCase().trim();
+document.getElementById("usuario").value
+.toLowerCase()
+.trim();
 
 
 
@@ -396,7 +438,15 @@ document.getElementById("clave").value.trim();
 
 
 
-if(usuario === "docentes" && clave === "fisio2026"){
+if(usuario==="docentes" && clave==="fisio2026"){
+
+
+
+
+localStorage.setItem(
+"accesoDocente",
+"ok"
+);
 
 
 
@@ -442,7 +492,49 @@ document.getElementById("mensajeLogin").innerHTML =
 
 
 
+function verificarSesion(){
+
+
+
+
+if(
+localStorage.getItem("accesoDocente")==="ok"
+){
+
+
+
+
+document.getElementById("login").style.display="none";
+
+
+document.getElementById("app").style.display="block";
+
+
+
+
+cargarContador();
+
+
+iniciarQR();
+
+
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+
 function mostrarClave(){
+
+
 
 
 let campo =
@@ -451,7 +543,7 @@ document.getElementById("clave");
 
 
 
-if(campo.type === "password"){
+if(campo.type==="password"){
 
 
 campo.type="text";
@@ -466,6 +558,8 @@ campo.type="password";
 }
 
 
+
+
 }
 
 
@@ -475,9 +569,16 @@ campo.type="password";
 
 
 
-
-
 function cerrarSesion(){
+
+
+
+
+localStorage.removeItem(
+"accesoDocente"
+);
+
+
 
 
 if(scanner){
@@ -502,7 +603,6 @@ document.getElementById("login").style.display="block";
 document.getElementById("clave").value="";
 
 
-document.getElementById("mensajeLogin").innerHTML="";
 
 
 }
@@ -514,21 +614,19 @@ document.getElementById("mensajeLogin").innerHTML="";
 
 
 
-
-
 function cargarContador(){
 
 
-const url =
-URL_APPS_SCRIPT + "?contador=true";
 
 
+fetch(URL_APPS_SCRIPT+"?contador=true")
 
 
-fetch(url)
 
 
 .then(r=>r.json())
+
+
 
 
 .then(data=>{
@@ -536,11 +634,15 @@ fetch(url)
 
 
 
-if(data.presentesHoy !== undefined){
+if(data.presentesHoy!==undefined){
+
+
 
 
 document.getElementById("contador").innerHTML =
-"Presentes hoy: " + data.presentesHoy;
+"Presentes hoy: "+data.presentesHoy;
+
+
 
 
 }
@@ -562,8 +664,6 @@ document.getElementById("contador").innerHTML =
 
 
 
-
-
 function mostrarResultado(data){
 
 
@@ -577,11 +677,15 @@ document.getElementById("mensaje");
 
 
 
-if(data.presentesHoy !== undefined){
+if(data.presentesHoy!==undefined){
+
+
 
 
 document.getElementById("contador").innerHTML =
-"Presentes hoy: " + data.presentesHoy;
+"Presentes hoy: "+data.presentesHoy;
+
+
 
 
 }
@@ -591,9 +695,9 @@ document.getElementById("contador").innerHTML =
 
 
 
-
-
 if(data.encontrado){
+
+
 
 
 
@@ -606,8 +710,12 @@ if(data.duplicado){
 mensaje.className="amarillo";
 
 
+
+
 mensaje.innerHTML =
-"⚠️ Ya registrado hoy:<br>" + data.nombre;
+"⚠️ Ya registrado hoy:<br>"+data.nombre;
+
+
 
 
 
@@ -620,8 +728,10 @@ mensaje.innerHTML =
 mensaje.className="verde";
 
 
+
+
 mensaje.innerHTML =
-"✅ Presente:<br>" + data.nombre;
+"✅ Presente:<br>"+data.nombre;
 
 
 
@@ -641,6 +751,8 @@ mensaje.innerHTML =
 mensaje.className="rojo";
 
 
+
+
 mensaje.innerHTML =
 "❌ No encontrado";
 
@@ -648,6 +760,8 @@ mensaje.innerHTML =
 
 
 }
+
+
 
 
 
@@ -668,18 +782,17 @@ function enviarID(id){
 
 
 
-const url =
-URL_APPS_SCRIPT + "?id=" + encodeURIComponent(id);
+fetch(
+URL_APPS_SCRIPT+
+"?id="+encodeURIComponent(id)
+)
 
 
-
-
-
-
-fetch(url)
 
 
 .then(r=>r.json())
+
+
 
 
 .then(data=>{
@@ -732,18 +845,17 @@ return;
 
 
 
-const url =
-URL_APPS_SCRIPT + "?dni=" + encodeURIComponent(dni);
+fetch(
+URL_APPS_SCRIPT+
+"?dni="+encodeURIComponent(dni)
+)
 
 
-
-
-
-
-fetch(url)
 
 
 .then(r=>r.json())
+
+
 
 
 .then(data=>{
@@ -752,6 +864,8 @@ fetch(url)
 
 
 mostrarResultado(data);
+
+
 
 
 document.getElementById("dni").value="";
@@ -765,8 +879,6 @@ document.getElementById("dni").value="";
 
 
 }
-
-
 
 
 
@@ -842,8 +954,6 @@ enviarID(textoQR);
 
 
 
-
-
 function nuevoEscaneo(){
 
 
@@ -871,6 +981,13 @@ iniciarQR();
 
 
 }
+
+
+
+
+
+
+verificarSesion();
 
 
 

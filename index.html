@@ -12,30 +12,32 @@
 
 
 * {
-  box-sizing: border-box;
+box-sizing:border-box;
 }
 
 
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 0;
-  padding: 10px;
-  background: #eef2f5;
+font-family: Arial, sans-serif;
+text-align:center;
+margin:0;
+padding:10px;
+background:#eef2f5;
 }
+
+
 
 
 .contenedor {
 
 
-  width: 100%;
-  max-width: 700px;
-  min-height: 100vh;
-  margin: auto;
-  background: white;
-  border-radius: 20px;
-  padding: 25px 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.18);
+width:100%;
+max-width:700px;
+min-height:100vh;
+margin:auto;
+background:white;
+border-radius:20px;
+padding:25px 15px;
+box-shadow:0 4px 15px rgba(0,0,0,0.18);
 
 
 }
@@ -44,12 +46,8 @@ body {
 
 
 h2 {
-
-
-  font-size: 34px;
-  margin: 10px;
-
-
+font-size:34px;
+margin:10px;
 }
 
 
@@ -58,13 +56,13 @@ h2 {
 #contador {
 
 
-  background: #1976d2;
-  color: white;
-  font-size: 30px;
-  font-weight: bold;
-  padding: 15px;
-  border-radius: 15px;
-  margin: 20px 0;
+background:#1976d2;
+color:white;
+font-size:30px;
+font-weight:bold;
+padding:15px;
+border-radius:15px;
+margin:20px 0;
 
 
 }
@@ -75,8 +73,8 @@ h2 {
 h3 {
 
 
-  font-size: 26px;
-  margin: 20px;
+font-size:26px;
+margin:20px;
 
 
 }
@@ -87,9 +85,9 @@ h3 {
 #lector {
 
 
-  width: 100%;
-  max-width: 420px;
-  margin: auto;
+width:100%;
+max-width:420px;
+margin:auto;
 
 
 }
@@ -100,27 +98,16 @@ h3 {
 button {
 
 
-  width: 95%;
-  max-width: 400px;
-  font-size: 24px;
-  font-weight: bold;
-  padding: 18px;
-  margin: 12px;
-  border-radius: 15px;
-  border: none;
-  background: #1976d2;
-  color: white;
-
-
-}
-
-
-
-
-button:active {
-
-
-  transform: scale(0.97);
+width:95%;
+max-width:400px;
+font-size:24px;
+font-weight:bold;
+padding:18px;
+margin:12px;
+border-radius:15px;
+border:none;
+background:#1976d2;
+color:white;
 
 
 }
@@ -131,26 +118,13 @@ button:active {
 input {
 
 
-  width: 95%;
-  max-width: 400px;
-  font-size: 26px;
-  padding: 18px;
-  text-align: center;
-  border-radius: 15px;
-  border: 2px solid #888;
-
-
-}
-
-
-
-
-hr {
-
-
-  margin: 30px 0;
-  border: none;
-  border-top: 2px solid #ddd;
+width:95%;
+max-width:400px;
+font-size:26px;
+padding:18px;
+text-align:center;
+border-radius:15px;
+border:2px solid #888;
 
 
 }
@@ -161,11 +135,11 @@ hr {
 #mensaje {
 
 
-  margin-top: 25px;
-  font-size: 30px;
-  font-weight: bold;
-  padding: 20px;
-  border-radius: 15px;
+margin-top:25px;
+font-size:30px;
+font-weight:bold;
+padding:20px;
+border-radius:15px;
 
 
 }
@@ -176,8 +150,8 @@ hr {
 .verde {
 
 
-  background:#c8e6c9;
-  color:#1b5e20;
+background:#c8e6c9;
+color:#1b5e20;
 
 
 }
@@ -188,8 +162,8 @@ hr {
 .amarillo {
 
 
-  background:#fff3cd;
-  color:#856404;
+background:#fff3cd;
+color:#856404;
 
 
 }
@@ -200,10 +174,17 @@ hr {
 .rojo {
 
 
-  background:#ffcdd2;
-  color:#b71c1c;
+background:#ffcdd2;
+color:#b71c1c;
 
 
+}
+
+
+
+
+#app {
+display:none;
 }
 
 
@@ -213,16 +194,88 @@ hr {
 
 
 </head>
-
-
-
-
 <body>
 
 
+<!-- LOGIN -->
 
 
-<div class="contenedor">
+<div id="login" class="contenedor">
+
+
+<h2>🔐 Acceso docente</h2>
+
+
+<h3>Sistema de asistencia</h3>
+
+
+
+
+<input 
+id="usuario"
+placeholder="Usuario">
+
+
+
+
+<br>
+
+
+
+
+<input 
+id="clave"
+type="password"
+placeholder="Clave">
+
+
+
+
+<br>
+
+
+
+
+<button onclick="mostrarClave()">
+👁 Mostrar / ocultar clave
+</button>
+
+
+
+
+<button onclick="ingresar()">
+Ingresar
+</button>
+
+
+
+
+<div id="mensajeLogin"></div>
+
+
+
+
+<p>
+Soporte:
+<a href="mailto:nfail@fmed.uba.ar">
+nfail@fmed.uba.ar
+</a>
+</p>
+
+
+
+
+</div>
+
+
+
+
+
+
+<!-- APLICACIÓN -->
+
+
+<div id="app" class="contenedor">
 
 
 
@@ -300,9 +353,14 @@ Esperando...
 
 
 
+<button onclick="cerrarSesion()">
+🚪 Cerrar sesión
+</button>
+
+
+
+
 </div>
-
-
 
 
 <script>
@@ -321,6 +379,143 @@ let scanner;
 
 
 
+function ingresar(){
+
+
+let usuario =
+document.getElementById("usuario").value.toLowerCase().trim();
+
+
+
+
+let clave =
+document.getElementById("clave").value.trim();
+
+
+
+
+
+
+if(usuario === "docentes" && clave === "fisio2026"){
+
+
+
+
+document.getElementById("login").style.display="none";
+
+
+document.getElementById("app").style.display="block";
+
+
+
+
+cargarContador();
+
+
+iniciarQR();
+
+
+
+
+
+
+}else{
+
+
+
+
+document.getElementById("mensajeLogin").innerHTML =
+"❌ Usuario o clave incorrectos";
+
+
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+
+function mostrarClave(){
+
+
+let campo =
+document.getElementById("clave");
+
+
+
+
+if(campo.type === "password"){
+
+
+campo.type="text";
+
+
+}else{
+
+
+campo.type="password";
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+function cerrarSesion(){
+
+
+if(scanner){
+
+
+scanner.clear();
+
+
+}
+
+
+
+
+document.getElementById("app").style.display="none";
+
+
+document.getElementById("login").style.display="block";
+
+
+
+
+document.getElementById("clave").value="";
+
+
+document.getElementById("mensajeLogin").innerHTML="";
+
+
+}
+
+
+
+
+
+
+
+
+
+
 function cargarContador(){
 
 
@@ -330,16 +525,15 @@ URL_APPS_SCRIPT + "?contador=true";
 
 
 
-fetch(url,{
-method:"GET",
-redirect:"follow"
-})
+fetch(url)
 
 
 .then(r=>r.json())
 
 
 .then(data=>{
+
+
 
 
 if(data.presentesHoy !== undefined){
@@ -352,19 +546,16 @@ document.getElementById("contador").innerHTML =
 }
 
 
-})
-
-
-.catch(error=>{
-
-
-console.log(error);
 
 
 });
 
 
+
+
 }
+
+
 
 
 
@@ -376,8 +567,12 @@ console.log(error);
 function mostrarResultado(data){
 
 
+
+
 const mensaje =
 document.getElementById("mensaje");
+
+
 
 
 
@@ -390,6 +585,8 @@ document.getElementById("contador").innerHTML =
 
 
 }
+
+
 
 
 
@@ -402,6 +599,8 @@ if(data.encontrado){
 
 
 if(data.duplicado){
+
+
 
 
 mensaje.className="amarillo";
@@ -428,6 +627,8 @@ mensaje.innerHTML =
 
 
 }
+
+
 
 
 
@@ -465,6 +666,8 @@ mensaje.innerHTML =
 function enviarID(id){
 
 
+
+
 const url =
 URL_APPS_SCRIPT + "?id=" + encodeURIComponent(id);
 
@@ -473,12 +676,7 @@ URL_APPS_SCRIPT + "?id=" + encodeURIComponent(id);
 
 
 
-fetch(url,{
-method:"GET",
-redirect:"follow"
-})
-
-
+fetch(url)
 
 
 .then(r=>r.json())
@@ -490,26 +688,12 @@ redirect:"follow"
 mostrarResultado(data);
 
 
-})
-
-
-
-
-.catch(error=>{
-
-
-document.getElementById("mensaje").innerHTML =
-"Error: " + error.message;
-
-
 });
 
 
 
 
 }
-
-
 
 
 
@@ -556,12 +740,7 @@ URL_APPS_SCRIPT + "?dni=" + encodeURIComponent(dni);
 
 
 
-fetch(url,{
-method:"GET",
-redirect:"follow"
-})
-
-
+fetch(url)
 
 
 .then(r=>r.json())
@@ -570,24 +749,14 @@ redirect:"follow"
 .then(data=>{
 
 
+
+
 mostrarResultado(data);
 
 
 document.getElementById("dni").value="";
 
 
-
-
-})
-
-
-
-
-.catch(error=>{
-
-
-document.getElementById("mensaje").innerHTML =
-"Error: " + error.message;
 
 
 });
@@ -619,8 +788,14 @@ new Html5QrcodeScanner(
 
 
 {
+
+
 fps:10,
+
+
 qrbox:320
+
+
 }
 
 
@@ -637,10 +812,14 @@ scanner.render(
 (textoQR)=>{
 
 
+
+
 scanner.clear();
 
 
 enviarID(textoQR);
+
+
 
 
 },
@@ -692,20 +871,6 @@ iniciarQR();
 
 
 }
-
-
-
-
-
-
-
-
-
-
-cargarContador();
-
-
-iniciarQR();
 
 
 
